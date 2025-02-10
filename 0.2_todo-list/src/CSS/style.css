@@ -25,9 +25,56 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f0f0f0; /* Light background for better contrast */
+}
+
+form {
+  margin-bottom: 1rem; /* Space between form and todo list */
+}
+
+input[type="text"] {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px; /* Fixed width for input */
+  margin-right: 0.5em; /* Space between input and button */
+}
+
+button {
+  background-color: #646cff; /* Primary button color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #535bf2; /* Darker shade on hover */
+}
+
+ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+  width: 100%; /* Full width for the list */
+}
+
+li {
+  background: white; /* White background for list items */
+  margin: 0.5em 0; /* Space between list items */
+  padding: 1em; /* Padding inside list items */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+li:hover {
+  background: #f9f9f9; /* Light background on hover */
 }
 
 h1 {
