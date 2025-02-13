@@ -15,30 +15,42 @@
 
 // export default Salute
 
-import React, { useReducer } from 'react';
 
-type State = { count: number };
-type Action = { type: 'increment' } | { type: 'decrement' };
+// Use Reducr with typescript
+// import React, { useReducer } from 'react';
 
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'increment':
-      return { count: state.count + 1 };
-    case 'decrement':
-      return { count: state.count - 1 };
-    default:
-      throw new Error();
-  }
-};
+// type State = { count: number };
+// type Action = { type: 'increment' } | { type: 'decrement' };
 
-const Counter: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+// const reducer = (state: State, action: Action): State => {
+//   switch (action.type) {
+//     case 'increment':
+//       return { count: state.count + 1 };
+//     case 'decrement':
+//       return { count: state.count - 1 };
+//     default:
+//       throw new Error();
+//   }
+// };
 
-  return (
-    <div>
-      <p>Count: {state.count}</p>
-      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
-      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
-    </div>
-  );
+// const Counter: React.FC = () => {
+//   const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+//   return (
+//     <div>
+//       <p>Count: {state.count}</p>
+//       <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+//       <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+//     </div>
+//   );
+// };
+
+
+// Prope with functionsl components.
+interface GreetingProps {
+  name: string;
+}
+
+const Greeting: React.FC<GreetingProps> = ({ name }) => {
+  return <h1>Hello, {name}!</h1>;
 };
