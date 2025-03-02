@@ -6,8 +6,8 @@ import { checkMatches, Swappcandies } from '../utils/gamelogic';
 import {motion} from 'framer-motion'
 
 function Board() {
-
-    const [board, setBoard] = useState<string[][]>(generateBoard());
+    const [boardSize, setBoardSize] = useState(window.innerWidth < 640 ? 4 : 8); 
+    const [board, setBoard] = useState<string[][]>(generateBoard(boardSize));
     const [draggedCandy, setDraggedCandy] = useState<{row: number; col: number} | null>(null)
     const [status, setStatus] = useState<string>("")
     const [score, setScore] = useState<number>(0);
@@ -22,6 +22,15 @@ function Board() {
             handleMatches();
         }
     }, [board])
+
+    useEffect(() =>{
+        const handleResize = () =>{
+            setBoardSize(window.innerWidth < 640 ? 4 : 8);
+            setBoard(generateBoard(window.innerWidth < 640 ? 4 : 8))
+        }
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    })
 
 
     const handleDragStart = (row: number, col: number) =>{
@@ -57,11 +66,33 @@ function Board() {
     };
 
 
+    // const handleMatches = () => {
+    //     const {newBoard, crashedPositions, crashedCount} = checkMatches(board);
+
+    //     if(crashedCount > 0) {
+    //         setScore(prev => prev + crashedCount);
+    //         setCrushedMessage(true);
+    //         setCrushedCandies(crashedPositions);
+            
+    //         setTimeout(() =>{
+    //             setBoard(newBoard);
+    //             setCrushedCandies([]);
+    //         }, 500)
+
+    //         setTimeout(() =>{
+    //             setCrushedMessage(false);
+    //         }, 2000)
+            
+    //         setStatus("You're a champion");
+    //     }
+    // }
+
     const handleMatches = () => {
         const {newBoard, crashedPositions, crashedCount} = checkMatches(board);
 
         if(crashedCount > 0) {
-            setScore(prev => prev + crashedCount);
+            // Update score by the actual number of crashed candies
+            setScore(prev => prev + crashedPositions.length);
             setCrushedMessage(true);
             setCrushedCandies(crashedPositions);
             
@@ -77,7 +108,6 @@ function Board() {
             setStatus("You're a champion");
         }
     }
-
 
 
   return (
@@ -102,7 +132,7 @@ function Board() {
         }
 
 
-        <div className='  mt-5 grid grid-cols-4 lg:grid-cols-8 gap-1 sm:grid-cols-6 bg-gray-300 rounded-lg p-5'>
+        <div className='mt-5 grid grid-cols-4 lg:grid-cols-8 gap-1 sm:grid-cols-6 bg-gray-300 rounded-lg p-5'>
         {board.map((row, rowIndex) => {
             return(
                 row.map((candy, colIndex) => {

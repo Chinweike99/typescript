@@ -1,3 +1,4 @@
+
 // gameLogic.ts
 const candyColors = ["red", "blue", "green", "yellow", "purple", "blue", "black", "amber"];
 
