@@ -26,10 +26,21 @@ function Board() {
 
     const handleDrop = (row: number, col: number)=>{
         if(draggedCandy){
-            const newBoard = Swappcandies(board, draggedCandy.row, row, draggedCandy.col, col);
-            setBoard(newBoard);
-            setDraggedCandy(null);
-        }
+            // const newBoard = Swappcandies(board, draggedCandy.row, row, draggedCandy.col, col);
+            // setBoard(newBoard);
+            // setDraggedCandy(null);
+            const { row: draggedRow, col: draggedCol} = draggedCandy;
+
+            const isAdjacent =
+            (draggedRow === row && Math.abs(draggedCol - col) === 1) ||
+            (draggedCol === col && Math.abs(draggedRow - row) === 1 );
+
+            if(isAdjacent){
+                 const newBoard = Swappcandies(board, draggedRow, row, draggedCol, col);
+                 setBoard(newBoard);
+            }
+        } 
+        setDraggedCandy(null);
     };
 
 
