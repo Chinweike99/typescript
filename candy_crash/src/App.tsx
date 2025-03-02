@@ -7,9 +7,7 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Your fun time ....</h1>
-
+    <div className='bg-gradient-to-r from-blue-500 to-purple-500 '>
       <Board />
     </div>
   );

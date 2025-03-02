@@ -81,17 +81,16 @@ function Board() {
 
 
   return (
-    <div className='flex flex-col items-center bg-amber-200 p-10'>
-        <h1 className='text-3xl py-4'>
+    <div className='relative flex flex-col items-center bg-gradient-to-r from-blue-500 to-purple-500  w-full p-16 '>
+        <h1 className='text-4xl py-4 font-bold'>
             score: {score}
-            <p>{status}</p>
         </h1>
 
 
         {
             showCrushMessage && (
                 <motion.div
-                className='text-lg font-semibold text-green-600'
+                className='absolute top-5 text-lg font-semibold text-green-600 border-2 p-2 bg-white '
                 initial={{opacity: 0, y: -10}}
                 animate={{opacity: 1, y: 0}}
                 exit={{opacity: 0}}
@@ -103,7 +102,7 @@ function Board() {
         }
 
 
-        <div className='max-w-[150rem]  grid grid-cols-8 gap-1 bg-gray-300 rounded-lg p-5'>
+        <div className='  mt-5 grid grid-cols-4 lg:grid-cols-8 gap-1 sm:grid-cols-6 bg-gray-300 rounded-lg p-5'>
         {board.map((row, rowIndex) => {
             return(
                 row.map((candy, colIndex) => {
