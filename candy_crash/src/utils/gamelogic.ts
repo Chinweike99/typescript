@@ -1,3 +1,4 @@
+// gameLogic.ts
 const candyColors = ["red", "blue", "green", "yellow", "purple", "blue", "black", "amber"];
 
 
@@ -11,8 +12,8 @@ export function checkMatches(board: string[][]) {
         for (let col = 0; col < board[row].length-2; col++){
             if (
                 newBoard[row][col] &&
-                newBoard[row][col] === board[row][col + 1] && 
-                newBoard[row][col] === board[row][col + 2]
+                newBoard[row][col] === newBoard[row][col + 1] && 
+                newBoard[row][col] === newBoard[row][col + 2]
             ){
                 console.log(`Match found at (${row}, ${col})`);
                 crashedPositions.push([row, col], [row, col + 1], [row, col + 2])
@@ -26,12 +27,12 @@ export function checkMatches(board: string[][]) {
     }
 
     //Check for Vertical matches
-    for(let col = 0; col < board.length; col++){
-        for(let row = 0; row < board[col].length - 2; row++){
+    for(let col = 0; col < board[0].length; col++){
+        for(let row = 0; row < board.length - 2; row++){
             if(
                 newBoard[row][col] &&
-                newBoard[row][col] === board[row + 1][col] &&
-                newBoard[row][col] === board[row + 2][col]
+                newBoard[row][col] === newBoard[row + 1][col] &&
+                newBoard[row][col] === newBoard[row + 2][col]
             ){
                 console.log(`Match was been discovered at ${row}, ${col}`);
                 crashedPositions.push([row, col], [row + 1, col], [row + 2, col]);

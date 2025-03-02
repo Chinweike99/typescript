@@ -1,3 +1,4 @@
+// Board.tsx
 import React, { useEffect, useState } from 'react'
 import { generateBoard } from '../utils/boardSetup'
 import Candy from './Candy';
@@ -16,7 +17,10 @@ function Board() {
 
     useEffect(() =>{
         console.log(board);
-        console.log(checkMatches(board))
+        const { crashedCount } = checkMatches(board);
+        if (crashedCount > 0) {
+            handleMatches();
+        }
     }, [board])
 
 
@@ -39,12 +43,17 @@ function Board() {
 
             if(isAdjacent){
                  let newBoard = Swappcandies(board, draggedRow, row, draggedCol, col);
-                 const {newBoard: updateBdoard} = checkMatches(newBoard);
-                 setBoard(updateBdoard);
+                 setBoard(newBoard);
+                 
+                 // Check for matches after the swap
+                 const { crashedCount } = checkMatches(newBoard);
+                 if (crashedCount > 0) {
+                     // If matches are found, handle them
+                     setTimeout(() => handleMatches(), 100);
+                 }
             }
         } 
         setDraggedCandy(null);
-        handleMatches();
     };
 
 
@@ -54,8 +63,8 @@ function Board() {
         if(crashedCount > 0) {
             setScore(prev => prev + crashedCount);
             setCrushedMessage(true);
-
             setCrushedCandies(crashedPositions);
+            
             setTimeout(() =>{
                 setBoard(newBoard);
                 setCrushedCandies([]);
@@ -64,11 +73,10 @@ function Board() {
             setTimeout(() =>{
                 setCrushedMessage(false);
             }, 2000)
+            
+            setStatus("You're a champion");
         }
-        setStatus("Youre a champion")
     }
-
-
 
 
 
@@ -112,15 +120,7 @@ function Board() {
             )
         })}
     </div>
-
-    {/* <button
-    className='mt-4 px-4 py-2 bg-blue-500 text-white'
-    onClick={handleMatches}
-    >
-        Check Matches
-    </button> */}
     </div>
   )
 }
-
 export default Board
