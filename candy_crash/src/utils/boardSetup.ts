@@ -3,7 +3,7 @@
  */
 
 const boardSize = 8;
-const candyColors = ["red", "blue", "green", "yellow", "purple", "blue"];
+const candyColors = ["red", "blue", "green", "yellow", "purple", "blue", "black", "amber"];
 
 export function generateBoard(): string[][]{
     return Array.from({length: boardSize}, ()=>
