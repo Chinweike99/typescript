@@ -22,8 +22,9 @@ interface CandyProps{
 
 const Candy: React.FC<CandyProps> = ({color, row, col, onDragStart, onDrop, onDragOver}) =>{
     return (
-        <div
-        className={`w-10 h-10 rounded-full cursor-pointer ${colorClassess[color] || "bg-white-700"}`}
+        <div className="border-1 border-gray-400 rounded p-2">
+            <div
+        className={`w-10 h-10 rounded-full  cursor-pointer ${colorClassess[color] || "bg-white-700"}`}
         data-row={row}
         data-col={col}
         draggable
@@ -31,6 +32,7 @@ const Candy: React.FC<CandyProps> = ({color, row, col, onDragStart, onDrop, onDr
         onDrop={()=>onDrop(row, col)}
         onDragOver={onDragOver}
         >
+        </div>
         </div>
     )
 }

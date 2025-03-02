@@ -22,7 +22,7 @@ export function checkMatches(board: string[][]): boolean {
                 board[row][col] === board[row + 1][col] &&
                 board[row][col] === board[row + 2][col]
             ){
-                console.log(`Match found at ${row}, ${col}`);
+                console.log(`Match was been discovered at ${row}, ${col}`);
                 matches = true
             }
         }
