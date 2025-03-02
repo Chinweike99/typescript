@@ -7,6 +7,7 @@ function Board() {
 
     const [board, setBoard] = useState<string[][]>(generateBoard());
     const [draggedCandy, setDraggedCandy] = useState<{row: number; col: number} | null>(null)
+    const [status, setStatus] = useState<string>("")
 
 
     useEffect(() =>{
@@ -36,8 +37,10 @@ function Board() {
             (draggedCol === col && Math.abs(draggedRow - row) === 1 );
 
             if(isAdjacent){
-                 const newBoard = Swappcandies(board, draggedRow, row, draggedCol, col);
+                 let newBoard = Swappcandies(board, draggedRow, row, draggedCol, col);
+                 newBoard = checkMatches(newBoard);
                  setBoard(newBoard);
+                //  setStatus("You are a crusher 😂")
             }
         } 
         setDraggedCandy(null);
@@ -49,6 +52,9 @@ function Board() {
 
   return (
     <div className='flex flex-col items-center bg-amber-200 p-10'>
+        <p className='text-3xl py-4'>
+            {status}
+        </p>
         <div className='max-w-[150rem]  grid grid-cols-8 gap-1 bg-gray-300 rounded-lg p-5'>
         {board.map((row, rowIndex) => {
             return(
