@@ -10,7 +10,6 @@ const connectDB = async() => {
         process.exit(1);
       }
         
-
     try {
         const connect = await mongoose.connect(MONGO_URI);
         console.log(`MongoDB connected: ${connect.connection.host}`)
