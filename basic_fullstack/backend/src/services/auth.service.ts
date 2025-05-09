@@ -77,7 +77,7 @@ export const verifyEmail = async(token: string) => {
     try {
         const user = await User.findOne({verificationToken: token});
         if(!user){
-            throw new Error("Inavlid verification token")
+            throw new Error("Invalid verification token")
         };
 
         user.isVerified = true;
@@ -89,6 +89,26 @@ export const verifyEmail = async(token: string) => {
         console.error("Error verifying email", error);
         throw error;
     }
+}
+
+
+// Verify Reset Token
+export const verifyResetToken = async (token: string) => {
+  try {
+    const user = await User.findOne({ 
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: Date.now() }
+    });
+    
+    if (!user) {
+      throw new Error("Invalid or expired password reset token");
+    }
+    
+    return user;
+  } catch (error) {
+    console.error("Error verifying reset token", error);
+    throw error;
+  }
 }
 
 

@@ -30,6 +30,7 @@ mongoose.connect(process.env.MONGODB_URI as string)
 
     // Add direct route for email verification that matches the URL in the emails
 app.get('/verify-email', authController.verify);
+app.get('/reset-password', authController.resetPasswordForm);
 
 // Routes
 app.use('/api/v1', routes)

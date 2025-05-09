@@ -126,7 +126,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   try {
     // Generate the verification URL using the built-in URL module for safer URL construction
     const clientUrl = process.env.CLIENT_URL || "http://localhost:5000";
-    const resetUrl = new URL("/verify-email", clientUrl);
+    const resetUrl = new URL("/reset-password", clientUrl);
     resetUrl.searchParams.append("token", token);
 
     // Construct the HTML message

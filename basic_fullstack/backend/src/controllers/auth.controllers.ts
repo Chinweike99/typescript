@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { emailValidationSchema, loginValidationSchema, resetPasswordValidationSchema, userValidationSchema } from "../models/user.models";
 import { createSendToken, forgotPassword, getCurrentUser, loginUser, registerUser, resetPassword, verifyEmail } from "../services/auth.service";
-
+import User from "../models/user.models";
 
 
 
@@ -165,6 +165,43 @@ export const reset = async(req: Request, res: Response, next: NextFunction) => {
         next(error)
     }
 }
+
+
+
+// Add this new controller function
+export const resetPasswordForm = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { token } = req.query;
+        
+        if(!token || typeof token !== 'string'){
+            throw new Error("Invalid reset token");
+        }
+        
+        // Verify the token is valid (check if it exists in the database)
+        const user = await User.findOne({
+            passwordResetToken: token,
+            passwordResetExpires: {$gt: Date.now()}
+        });
+        
+        if(!user){
+            throw new Error("Invalid or expired reset token");
+        }
+        
+        // If this is an API endpoint, return success
+        res.status(200).json({
+            status: "success",
+            message: "Valid reset token",
+            token: token
+        });
+        
+        // If this is meant to redirect to a frontend page, you could use:
+        // const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+        // res.redirect(`${clientUrl}/reset-password?token=${token}`);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 
 export const getMe = async(req: Request, res: Response, next: NextFunction) => {
