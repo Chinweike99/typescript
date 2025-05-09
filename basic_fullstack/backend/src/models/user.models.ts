@@ -44,7 +44,6 @@ export const loginValidationSchema = z.object({
   });
 
 
-
   export const resetPasswordValidationSchema = z.object({
     password: z.string().min(8).max(50),
     token: z.string(),

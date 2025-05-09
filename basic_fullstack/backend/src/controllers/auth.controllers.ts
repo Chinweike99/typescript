@@ -5,30 +5,40 @@ import { createSendToken, forgotPassword, getCurrentUser, loginUser, registerUse
 
 
 
-export const register = async(req: Request, res: Response, next: NextFunction) => {
+export const register = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         //Validate request
         const validateData = userValidationSchema.parse(req.body);
         const {name, email, password} = validateData;
 
         // Register User
-        const user = await registerUser(name, email, password);
-        if(!user){
-            res.status(400).json({status: "Fail", message: "Try using another email"})
-        }
-
-        res.status(201).json({
-            status: "Success",
-            message: "Registatraion Successful. Please Check for email verificaion",
-            data: {
-                user: {
-                    id: user?._id,
-                    name: user?.name,
-                    email: user?.email
+        try {
+            const user = await registerUser(name, email, password);
+            
+             res.status(201).json({
+                status: "Success",
+                message: "Registration Successful. Please Check for email verification",
+                data: {
+                    user: {
+                        id: user._id,
+                        name: user.name,
+                        email: user.email
+                    }
                 }
+            });
+            return;
+        } catch (error: any) {
+            // Handle specific errors from registerUser
+            if (error.message === "Email already in use") {
+                 res.status(400).json({
+                    status: "Fail", 
+                    message: "Email already in use. Please try another email address."
+                });
+                return
             }
-        });
-        
+            // If it's another error, pass it to the global error handler
+            throw error;
+        }
     } catch (error) {
         next(error);
     }

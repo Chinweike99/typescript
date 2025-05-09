@@ -1,5 +1,9 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import path from "path";
+// dotenv.config();
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -9,7 +13,43 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USERNAME,
     pass: process.env.SMTP_PASSWORD,
   },
+  secure: false,
+  tls :{ 
+    rejectUnauthorized: false,
+  }
 });
+
+console.log({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  user: process.env.SMTP_USERNAME,
+  pass: process.env.SMTP_PASSWORD,
+});
+
+
+// const transporter = nodemailer.createTransport({
+//   host: process.env.SMTP_HOST,
+//   port: process.env.SMTP_PORT || "2525",
+//   secure: false,
+//   auth: {
+//     user: process.env.SMTP_USERNAME,
+//     pass: process.env.SMTP_PASSWORD,
+//   },
+//   // Add debug option for troubleshooting
+//   debug: process.env.NODE_ENV === 'development',
+// });
+
+
+// Verify the connection configuration
+transporter.verify(function(error, success) {
+  if (error) {
+    console.log("SMTP server connection error:", error);
+  } else {
+    console.log("SMTP server connection verified successfully");
+  }
+});
+
+
 
 interface EmailOptions {
   email: string;
@@ -52,7 +92,7 @@ export const sendEmail = async (options: EmailOptions) => {
 export const sendVerificationEmail = async (email: string, token: string) => {
   try {
     // Generate the verification URL using the built-in URL module for safer URL construction
-    const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5000";
     const verificationUrl = new URL("/verify-email", clientUrl);
     verificationUrl.searchParams.append("token", token);
 
@@ -85,7 +125,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   try {
     // Generate the verification URL using the built-in URL module for safer URL construction
-    const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5000";
     const resetUrl = new URL("/verify-email", clientUrl);
     resetUrl.searchParams.append("token", token);
 

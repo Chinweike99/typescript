@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User, { IUser } from "../models/user.models";
 import argon2  from "argon2";
-import crypto from 'crypto'
+import crypto from 'crypto';
 import { sendPasswordResetEmail, sendVerificationEmail } from "./email.services";
 
 
@@ -55,10 +55,18 @@ export const registerUser = async (name: string, email: string, password: string
         });
         //Send Verification Email
         
-        await sendVerificationEmail(email, verificationToken);
+        try {
+            await sendVerificationEmail(email, verificationToken);
+        } catch (emailError) {
+            console.error("Failed to send verification email:", emailError);
+        }
+        
+
+        // await sendVerificationEmail(email, verificationToken);
         return newUser;
     } catch (error) {
         console.log("Registration error: ", error)
+        throw error;
     }
 }
 
@@ -78,7 +86,8 @@ export const verifyEmail = async(token: string) => {
 
         return user
     } catch (error) {
-        console.error("Error valrifying email", error)
+        console.error("Error verifying email", error);
+        throw error;
     }
 }
 
