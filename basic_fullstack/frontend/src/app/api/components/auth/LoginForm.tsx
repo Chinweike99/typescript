@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { login } from "../../auth";
+import { login, forgotPassord } from "../../auth";
 import { toast } from "react-toastify";
 
 
@@ -43,6 +43,10 @@ const LoginForm = () => {
 
     const onSubmit = (data: LoginFormData) => {
         mutation.mutate(data)
+    }
+
+    const handleForgotPassword = () =>{
+      forgotPassord
     }
 
  return (
@@ -86,8 +90,8 @@ const LoginForm = () => {
           </label>
         </div>
 
-        <div className="text-sm">
-          <a href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+        <div className="text-sm" >
+          <a href="/forgot-password"onClick={handleForgotPassword} className="font-medium text-indigo-600 hover:text-indigo-500">
             Forgot your password?
           </a>
         </div>
