@@ -14,12 +14,44 @@ dotenv.config();
 
 
 const app = express();
-
 app.use(express.json());
-app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true
-}));
+
+
+// app.use(cors({
+//     origin: process.env.CLIENT_URL || 'http://localhost:3000',
+//     credentials: true
+// }));
+
+export const configCors = ()=> {
+    return cors({
+        origin: (origin, callback) => {
+            const allowedOrigins = [
+                'http://localhost:3000',
+                process.env.CLIENT_URL
+            ]
+            if(!origin || allowedOrigins.indexOf(origin) !== -1){
+                callback(null, true);
+            }else{
+                callback(new Error("Not allowed by cors"))
+            }
+        },
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization",
+            "Accept",
+            "Content-Range",
+            "X-Content-Range"
+        ],
+        credentials: true,
+        preflightContinue: false,
+        maxAge: 600,
+        optionsSuccessStatus: 204
+    })
+}
+
+
+app.use(configCors());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
