@@ -25,7 +25,7 @@ export interface AuthPayload {
 export interface ApiResponse<T>{
     success: boolean;
     message?: string;
-    date?: T;
+    data?: T;
     error?: string;
 }
 
