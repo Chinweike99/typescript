@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": "ts,json",
+    "exec": "tsup src/index.ts --format esm --dts --out-dir dist && node dist/index.js"
+  }
+  
