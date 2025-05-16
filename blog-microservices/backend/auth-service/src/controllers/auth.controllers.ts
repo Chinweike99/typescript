@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import * as authSchema from '../../../shared/src/schema/schemas'
 import { UserModel } from "src/models/user.models";
 import * as argon2 from "argon2";
@@ -82,8 +82,16 @@ export const login = async(req: Request, res: Response, next: NextFunction) => {
 }
 
 
-export const getCurrentUser = async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const getCurrentUser = (async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
+
+        if (!req.user || !req.user.userId) {
+            return res.status(401).json({ 
+                success: false, 
+                message: "Authentication required" 
+            });
+        }
+
         const user = await UserModel.findById(req.user.userId).select('-password');
         if(!user) {
             throw new Error("User not found")
@@ -99,4 +107,4 @@ export const getCurrentUser = async(req: AuthenticatedRequest, res: Response, ne
         logger.error(`Get current user error: ${error}`);
     next(error);
     }
-}
+}) as RequestHandler;
