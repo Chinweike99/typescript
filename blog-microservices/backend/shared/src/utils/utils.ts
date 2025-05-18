@@ -3,6 +3,7 @@ import {Request} from 'express';
 import jwt from 'jsonwebtoken';
 
 
+
 export const getTokenFromHeader = (req: Request): string | null => {
     const authHeader = req.headers['authorization'];
     if(authHeader && authHeader.startsWith("Bearer ")){

@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import * as authSchema from '../../../shared/src/schema/schemas'
-import { UserModel } from "src/models/user.models";
+import { UserModel } from "../models/user.models";
 import * as argon2 from "argon2";
 import { ApiResponse } from "../../../shared/src/types/types";
 import { AuthenticatedRequest } from "../../../shared/src/types/AuthenticatedRequest";

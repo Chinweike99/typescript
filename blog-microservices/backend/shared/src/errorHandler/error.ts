@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express'
+import {Request, Response, NextFunction,ErrorRequestHandler} from 'express'
 import logger from '../logger/logger';
 
 
@@ -13,23 +13,24 @@ export class AppError extends Error {
     }
 }
 
-export const errorHandler = (
-    err: Error | AppError,
-    req: Request,
-    res: Response,
-    next: NextFunction
+export const errorHandler: ErrorRequestHandler = (
+    err,
+    req,
+    res,
+    next
 ) => {
     logger.error(err.message, {stack: err.stack});
     if(err instanceof AppError ){
-        return res.status(err.statusCode).json({
+        res.status(err.statusCode).json({
             success: false,
             message: err.message
         });
+        return
     }
     
     // Handle Other types o errors
-    return res.status(500).json({
-        succes: false,
+     res.status(500).json({
+        success: false,
         message: "Internal server error"
     })
 };
